@@ -1,7 +1,7 @@
 # FamilySoftware
 Source files used to output information from family tree documents
 
-To do list
+To do list:
 
 Implement new types of error checking
     
