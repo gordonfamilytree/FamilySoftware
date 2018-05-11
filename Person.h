@@ -5,6 +5,54 @@
 
 namespace fs = boost::filesystem;
 
+int stringtoint(std::string s)
+{
+	int result = 0;
+	int multiplier = 0;
+	for( int i = 0; i < 4; i++ )
+	{
+		if(s.length() == 0 )
+			break;
+		char backvalue = s.back();
+		switch(backvalue)
+		{
+			case '1' :
+				result = result + 1*pow(10,multiplier);
+				break;
+			case '2' :
+				result = result + 2*pow(10,multiplier);
+				break;
+			case '3' :
+				result = result + 3*pow(10,multiplier);
+				break;
+			case '4' :
+				result = result + 4*pow(10,multiplier);
+				break;
+			case '5' :
+				result = result + 5*pow(10,multiplier);
+				break;
+			case '6' :
+				result = result + 6*pow(10,multiplier);
+				break;
+			case '7' :
+				result = result + 7*pow(10,multiplier);
+				break;
+			case '8' :
+				result = result + 8*pow(10,multiplier);
+				break;
+			case '9' :
+				result = result + 9*pow(10,multiplier);
+				break;
+			default :
+				result = result + 0;
+				break;
+		}
+		multiplier++;
+		s.pop_back();
+	}
+	return result;
+}
+
 class Person
 {
 	public:
@@ -112,6 +160,7 @@ class Person
 												getline(file,line);
 												getDeath(line);
 												(*allErrors).errorOne(line,second_iter->path(),((deathDay+deathMonth+deathYear+deathPlace)==""));
+												(*allErrors).errorFiveSix(stringtoint(birthYear),stringtoint(deathYear), second_iter->path());
 												getline(file,line);
 												parents = getParents(line);	
 												famC = getFamily(parents, p);
@@ -147,6 +196,7 @@ class Person
 												getline(file,line);
 												getDeath(line);
 												(*allErrors).errorOne(line,second_iter->path(),((deathDay+deathMonth+deathYear+deathPlace)==""));
+												(*allErrors).errorFiveSix(stringtoint(birthYear), stringtoint(deathYear), second_iter->path());
 												getline(file,line);											
 												parents = getParents(line);
 												getMarriage(info);
@@ -201,6 +251,7 @@ class Person
 													getline(file,line);
 													getDeath(line);
 													(*allErrors).errorOne(line,second_iter->path(),((deathDay+deathMonth+deathYear+deathPlace)==""));
+													//(*allErrors).errorFiveSix(std::stoi(birthYear), std::stoi(deathYear), second_iter->path());
 													getline(file,line);
 													parents = getParents(line);	
 													famS = familyCounter;
@@ -343,7 +394,7 @@ class Person
 			else if(first_iter->path().filename() == "2. Aunts and Uncles")
 			{
 				//If negative then it's a niece/nephew
-				if(depth<0)
+				if(what.at(0) == '-')
 				{
 					//Male or female?
 					std::string nieceNephew = "";
@@ -369,11 +420,11 @@ class Person
 						relationship_stream<<"Great "<<nieceNephew<<marriedTo;
 					else if(what.at(1) == '3')
 						relationship_stream<<"2nd Great "<<nieceNephew<<marriedTo;
-					else if(what.at(4) == '4')
+					else if(what.at(1) == '4')
 						relationship_stream<<"3rd Great "<<nieceNephew<<marriedTo;
 					else
 					{
-						int depth = (int)(what.at(0))-49;
+						int depth = (int)(what.at(1))-49;
 						relationship_stream<<depth<<"th Great "<<nieceNephew<<marriedTo;
 					}
 					//What about half nieces and nephews?? Does the logic still work??
@@ -775,24 +826,28 @@ class Person
 			fs::directory_iterator end_iter;
 			for( fs::directory_iterator third_iter(second_iter); third_iter != end_iter; ++third_iter)
 			{
+				//Look for docs and photos folders
+				//Are resources different than sources?
 				if(is_directory(third_iter->path()))
 				{
-					continue;
-				}
-				if(third_iter->path().filename().string().find("Info")==std::string::npos)
-				{
-					//Add this file as a resource
-					resourcesFile.push(third_iter->path().string());
-					std::string form = third_iter->path().extension().string();
-					form.erase(0,1);
-					resourcesForm.push(form);
-					std::string title = third_iter->path().filename().string();
-					while(title.back() != '.')
-					{
-						title.pop_back();
+					if(third_iter->path().filename() == "Photos" || third_iter->path().filename() == "Docs")
+					{						
+						for(fs::directory_iterator fourth_iter(third_iter->path()); fourth_iter != end_iter; ++fourth_iter)
+						{
+							//Add all files as resources
+							resourcesFile.push(fourth_iter->path().string());
+							std::string form = fourth_iter->path().extension().string();
+							form.erase(0,1);
+							resourcesForm.push(form);
+							std::string title = fourth_iter->path().filename().string();							
+							while(title.back() != '.')
+							{
+								title.pop_back();
+							}
+							title.pop_back();
+							resourcesTitle.push(title);
+						}
 					}
-					title.pop_back();
-					resourcesTitle.push(title);
 				}
 			}
 		}

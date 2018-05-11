@@ -10,6 +10,17 @@ class Errors
 	public:
 		std::queue<int> errorType;
 		std::queue<fs::path> errorLocation;
+		bool notException(fs::path exceptions)
+		{
+			std::string line;
+			fs::ifstream exceptionsFile(exceptions);
+			while(getline(exceptionsFile, line))
+			{
+				if(line == errorLocation.front().string())
+					return false;
+			}
+			return true;
+		}
 		std::string parseError(int error)
 		{
 			switch(error)
@@ -17,12 +28,13 @@ class Errors
 				case 1: return "Is missing Info.txt";
 				case 2: return "Expected a period";
 				case 3: return "Occurred twice";
-				case 4: return "Expected a dash";
-				//Error types that I would like to implement
+				case 4: return "Expected a dash";				
 				case 5: return "Born before death";
 				case 6: return "Over 120 years old";
+				//Error types that I would like to implement
 				case 7: return "Born before parent";
 				case 8: return "Born after parent died";
+				//Implement the two above from families queue
 				case 9: return "Marriage outside lifespan";
 			}
 		}
@@ -107,5 +119,20 @@ class Errors
 			}
 			errorType.push(1);
 			errorLocation.push(second_iter->path());
+		}
+		void errorFiveSix(int birth, int death, fs::path p)
+		{
+			if(death == 0 || birth == 0)
+				return;
+			if(death < birth)
+			{
+				errorType.push(5);
+				errorLocation.push(p);
+			}
+			else if(death > birth + 119)
+			{
+				errorType.push(6);
+				errorLocation.push(p);
+			}
 		}
 };

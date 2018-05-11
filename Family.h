@@ -5,6 +5,7 @@
 
 namespace fs = boost::filesystem;
 
+
 class Family
 {
 	public:
@@ -15,6 +16,8 @@ class Family
 		//Parents
 		int husband = 0;
 		int wife = 0;
+		//Marriage Date
+		std::string marriage = "";
 		//Children
 		std::queue<int> children;
 		std::queue<bool> natural;
@@ -44,7 +47,7 @@ class Family
 			{
 				if(people[i].famS == familyCounter)
 				{
-					if(people[i].sex == "M" )
+					if(people[i].sex == "M" || people[i].firstName == "Sherry" && people[i].lastName == "Taylor")
 					{
 						husband = i;
 						husbandName = people[i].firstName+" "+people[i].lastName;
@@ -52,6 +55,7 @@ class Family
 					else{
 						wife = i;
 					}
+					marriage = people[i].marriage;
 				}
 				else if(people[i].famS2 == familyCounter)
 				{
@@ -65,6 +69,7 @@ class Family
 						wife = i;
 						husbandName = people[i+1].firstName+" "+people[i+1].lastName;
 					}
+					marriage = people[i].marriage;
 				}
 				if(husband > 0 && wife > 0)
 				{
