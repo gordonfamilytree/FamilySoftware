@@ -780,7 +780,9 @@ class Person
 			{
 				familyCounter++;
 				parents.pop_back();
-			}	
+			}
+			if(parents.find("*")!=std::string::npos)
+				parents.pop_back();	
 			fs::directory_iterator end_iter;
 			//Look at everything in the top folder
 			for( fs::directory_iterator first_iter(p) ; first_iter != end_iter ; ++first_iter)
