@@ -136,4 +136,23 @@ class Errors
 				errorLocation.push(p);
 			}
 		}
+		void errorNine(int marriage, int birth, int death, fs::path p)
+		{
+			if(marriage == 0)
+				return;
+			if(birth == 0 && death == 0)
+				return;
+
+			if(marriage < birth && birth > 0)
+			{
+				errorType.push(9);
+				errorLocation.push(p);
+			}
+
+			if(marriage > death && death > 0)
+			{
+				errorType.push(9);
+				errorLocation.push(p);
+			}
+		}
 };

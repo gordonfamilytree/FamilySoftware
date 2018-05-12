@@ -6,7 +6,3 @@ To do list:
 Implement new types of error checking
     
 Finish working on the segment tree program
-    
-Document compiler setup
-
-Add indexing to improve runtime

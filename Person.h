@@ -7,6 +7,11 @@ namespace fs = boost::filesystem;
 
 int stringtoint(std::string s)
 {
+	if(s.find(",") != std::string::npos)
+	{
+		s = s.substr(s.size()-4,s.size());
+	}
+
 	int result = 0;
 	int multiplier = 0;
 	for( int i = 0; i < 4; i++ )
@@ -199,6 +204,7 @@ class Person
 												getline(file,line);											
 												parents = getParents(line);
 												getMarriage(info);
+												(*allErrors).errorNine(stringtoint(marriage), stringtoint(birthYear), stringtoint(deathYear), second_iter->path());
 												famS = familyCounter;
 												if(related)
 												{
@@ -250,9 +256,9 @@ class Person
 													getline(file,line);
 													getDeath(line);
 													(*allErrors).errorOne(line,second_iter->path(),((deathDay+deathMonth+deathYear+deathPlace)==""));
-													//(*allErrors).errorFiveSix(std::stoi(birthYear), std::stoi(deathYear), second_iter->path());
+													(*allErrors).errorFiveSix(stringtoint(birthYear), stringtoint(deathYear), second_iter->path());
 													getline(file,line);
-													parents = getParents(line);	
+													parents = getParents(line);
 													famS = familyCounter;
 													addResources(second_iter->path());
 													getRelationship(first_iter, second_iter->path().filename().string(), third_iter);
