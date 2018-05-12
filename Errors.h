@@ -136,6 +136,30 @@ class Errors
 				errorLocation.push(p);
 			}
 		}
+		void errorSevenEight(std::queue<int> childrenBirths, std::queue<fs::path> childrenPaths, int fatherBirth, int motherBirth, int fatherDeath, int motherDeath)
+		{
+			while( childrenBirths.size() > 0 )
+			{
+				int birth = childrenBirths.front();
+				fs::path p = childrenPaths.front();
+
+				childrenBirths.pop();
+				childrenPaths.pop();
+
+				if(birth == 0)
+					continue;
+				if(birth < fatherBirth && fatherBirth > 0 || birth < motherBirth && motherBirth > 0)
+				{
+					errorType.push(7);
+					errorLocation.push(p);
+				}
+				if(birth > fatherDeath && fatherDeath> 0 || birth > motherDeath && motherDeath > 0)
+				{
+					errorType.push(8);
+					errorLocation.push(p);
+				} 
+			}
+		}
 		void errorNine(int marriage, int birth, int death, fs::path p)
 		{
 			if(marriage == 0)

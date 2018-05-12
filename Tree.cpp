@@ -53,7 +53,7 @@ int main()
 			//Display percent done
 			percentDone = (100*(i+totalPeople)/(totalPeople+totalPeople+totalFamilies));
 			std::cout<<percentDone<<"%\r";
-			families[i].gatherInfo(people, i);
+			families[i].gatherInfo(people, i, passErrors);
 		}
 		for(int i = 1; i <= totalPeople; i++)
 		{

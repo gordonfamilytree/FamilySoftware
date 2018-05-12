@@ -5,7 +5,6 @@
 
 namespace fs = boost::filesystem;
 
-
 class Family
 {
 	public:
@@ -20,14 +19,19 @@ class Family
 		std::string marriage = "";
 		//Children
 		std::queue<int> children;
+		std::queue<int> childrenBirths;
+		std::queue<fs::path> childrenPaths;
 		std::queue<bool> natural;
 		//------------------------------------------------------------------------
 		//---------------------------------Functions------------------------------		
-		void gatherInfo(std::vector<Person> people, int familyCounter)
+		void gatherInfo(std::vector<Person> people, int familyCounter, Errors *allErrors)
 		{
 			familyNumber = familyCounter;
 			getParents(people,familyCounter);
 			getChildren(people,familyCounter);
+			(*allErrors).errorSevenEight(childrenBirths, childrenPaths, stringtoint(people[husband].birthYear),
+				stringtoint(people[wife].birthYear),stringtoint(people[husband].deathYear),stringtoint(people[wife].deathYear));
+
 		}
 		bool exists(int familyCounter, std::vector<Person> people)
 		{
@@ -84,6 +88,8 @@ class Family
 				if(people[i].famC == familyCounter)
 				{
 					children.push(i);
+					childrenBirths.push(stringtoint(people[i].birthYear));
+					childrenPaths.push(people[i].location);
 					if( husbandName == "William Parks" )//Change this if any other adopted people appear
 					{
 						natural.push(false);
