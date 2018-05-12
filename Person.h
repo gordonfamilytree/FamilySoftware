@@ -104,7 +104,6 @@ class Person
 			int personCounter2 = 0;
 			int familyCounter = 0;
 			std::string parents;
-			//How many families are there?
 			//Look at everything in the top folder
 			for( fs::directory_iterator first_iter(p) ; first_iter != end_iter ; ++first_iter)
 			{

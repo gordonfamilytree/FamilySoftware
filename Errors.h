@@ -16,7 +16,8 @@ class Errors
 			fs::ifstream exceptionsFile(exceptions);
 			while(getline(exceptionsFile, line))
 			{
-				if(line == errorLocation.front().string())
+				std::string str = "\"" + errorLocation.front().string() + "\"";
+				if(line == str)
 					return false;
 			}
 			return true;
