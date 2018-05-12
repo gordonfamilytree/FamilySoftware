@@ -84,6 +84,7 @@ class Person
 		std::string marriage = "";
 		std::string relationship = "";
 		bool related = true;
+		bool half = false;
 		//Families
 		int famC = 0;
 		int famS = 0;
@@ -467,7 +468,7 @@ class Person
 						int depth = (int)(what.at(0))-49;
 						relationship_stream<<depth<<"th Great "<<auntUncle<<marriedTo;
 					}
-					if(isHalf(third_iter))
+					if(half)
 					{
 						std::string temp = relationship_stream.str();
 						relationship_stream.str("");
@@ -500,7 +501,7 @@ class Person
 				{
 					relationship_stream << marriedTo<<"First Cousin " << what.at(0) <<" Times Removed";
 				}
-				if(isHalf(third_iter))
+				if(half)
 				{
 					std::string temp = relationship_stream.str();
 					relationship_stream.str("");
@@ -532,7 +533,7 @@ class Person
 				{
 					relationship_stream << marriedTo<<"Second Cousin " << what.at(0) <<" Times Removed";
 				}	
-				if(isHalf(third_iter))
+				if(half)
 				{
 					std::string temp = relationship_stream.str();
 					relationship_stream.str("");
@@ -564,7 +565,7 @@ class Person
 				{
 					relationship_stream << marriedTo<<"Third Cousin " << what.at(0) <<" Times Removed";
 				}
-				if(isHalf(third_iter))
+				if(half)
 				{
 					std::string temp = relationship_stream.str();
 					relationship_stream.str("");
@@ -596,7 +597,7 @@ class Person
 				{
 					relationship_stream << marriedTo<<"Fourth Cousin " << what.at(0) <<" Times Removed";
 				}
-				if(isHalf(third_iter))
+				if(half)
 				{
 					std::string temp = relationship_stream.str();
 					relationship_stream.str("");
@@ -774,15 +775,12 @@ class Person
 				return 0;
 			}
 			int familyCounter = 0;	
-			if(parents.find("+*")!=std::string::npos || parents.find("+")!=std::string::npos)
+			isHalf(parents);
+			if(parents.find("+")!=std::string::npos || parents.find("^")!=std::string::npos)
 			{
 				familyCounter++;
 				parents.pop_back();
-			}		
-			else if(parents.find("*")!=std::string::npos)
-			{
-				parents.pop_back();
-			}
+			}	
 			fs::directory_iterator end_iter;
 			//Look at everything in the top folder
 			for( fs::directory_iterator first_iter(p) ; first_iter != end_iter ; ++first_iter)
@@ -812,17 +810,11 @@ class Person
 				}
 			}			
 		}
-		bool isHalf(fs::directory_iterator third_iter)
+		bool isHalf(std::string parents)
 		{
-			fs::path info = third_iter->path();	
-			fs::ifstream file(info);
-			std::string line;
-			while(getline(file,line))
+			if(parents.find("*")!=std::string::npos || parents.find("+")!=std::string::npos )
 			{
-				if(line.find("+")!=std::string::npos || line.find("*")!=std::string::npos)
-				{
-					return true;
-				}
+				return true;
 			}
 			return false;
 		}
