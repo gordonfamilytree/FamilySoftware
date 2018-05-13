@@ -33,6 +33,7 @@ class Family
 			(*allErrors).errorSevenEight(childrenBirths, childrenPaths, stringtoint(people[husband].birthYear),
 				stringtoint(people[wife].birthYear),stringtoint(people[husband].deathYear),stringtoint(people[wife].deathYear));
 			(*allErrors).errorEleven(childrenSurnames,people[husband].lastName,people[wife].lastName,childrenPaths);
+			(*allErrors).errorTwelve(childrenBirths,stringtoint(marriage),childrenPaths);
 		}
 		bool exists(int familyCounter, std::vector<Person> people)
 		{

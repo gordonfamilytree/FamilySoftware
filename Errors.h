@@ -10,6 +10,9 @@ class Errors
 	public:
 		std::queue<int> errorType;
 		std::queue<fs::path> errorLocation;
+
+		int marriageYoung = 15;
+		
 		bool notException(fs::path exceptions)
 		{
 			std::string line;
@@ -37,6 +40,7 @@ class Errors
 				case 9: return "Marriage outside lifespan";				
 				case 10: return "No connected families";
 				case 11: return "Children surnames don't match";
+				case 12: return "Born before parents were married";
 			}
 		}
 		void errorOne(std::string line, fs::path p, bool isempty)
@@ -167,7 +171,7 @@ class Errors
 			if(birth == 0 && death == 0)
 				return;
 
-			if(marriage < birth && birth > 0)
+			if(marriage - marriageYoung < birth && birth > 0)
 			{
 				errorType.push(9);
 				errorLocation.push(p);
@@ -204,6 +208,25 @@ class Errors
 						errorType.push(11);
 						errorLocation.push(p);
 					}
+				}
+			}
+		}
+		void errorTwelve(std::queue<int> childrenBirths, int marriage, std::queue<fs::path> childrenPaths)
+		{
+			while( childrenBirths.size() > 0 )
+			{
+				int birth = childrenBirths.front();
+				fs::path p = childrenPaths.front();
+
+				childrenBirths.pop();
+				childrenPaths.pop();
+
+				if(birth == 0)
+					continue;
+				if(birth < marriage && marriage > 0)
+				{
+					errorType.push(12);
+					errorLocation.push(p);
 				}
 			}
 		}
