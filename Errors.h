@@ -32,11 +32,12 @@ class Errors
 				case 4: return "Expected a dash";				
 				case 5: return "Born before death";
 				case 6: return "Over 120 years old";
-				//Error types that I would like to implement
 				case 7: return "Born before parent";
 				case 8: return "Born after parent died";
-				//Implement the two above from families queue
 				case 9: return "Marriage outside lifespan";
+				//Unimplimented below
+				case 10: return "No connected families";
+				case 11: return "Children surnames don't match";
 			}
 		}
 		void errorOne(std::string line, fs::path p, bool isempty)
@@ -176,6 +177,14 @@ class Errors
 			if(marriage > death && death > 0)
 			{
 				errorType.push(9);
+				errorLocation.push(p);
+			}
+		}
+		void errorTen(int famC, int famS, int famS2, fs::path p)
+		{
+			if(famC + famS + famS2 == 0)
+			{
+				errorType.push(10);
 				errorLocation.push(p);
 			}
 		}

@@ -103,6 +103,11 @@ class Person
 		//---------------------------------Functions------------------------------
 		void gatherInfo(int personCounter, Errors *allErrors, fs::path p)
 		{
+			gatherInfoCall(personCounter, allErrors, p);
+			(*allErrors).errorTen(famC, famS, famS2, location);
+		}
+		void gatherInfoCall(int personCounter, Errors *allErrors, fs::path p)
+		{
 			bool unmarried = false;
 			personNumber = personCounter;
 			//Go through and find the folder that the person is in
