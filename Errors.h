@@ -34,8 +34,7 @@ class Errors
 				case 6: return "Over 120 years old";
 				case 7: return "Born before parent";
 				case 8: return "Born after parent died";
-				case 9: return "Marriage outside lifespan";
-				//Unimplimented below
+				case 9: return "Marriage outside lifespan";				
 				case 10: return "No connected families";
 				case 11: return "Children surnames don't match";
 			}
@@ -186,6 +185,26 @@ class Errors
 			{
 				errorType.push(10);
 				errorLocation.push(p);
+			}
+		}
+		void errorEleven(std::queue<std::string> childrenSurnames, std::string fatherSurname, std::string motherSurname, std::queue<fs::path> childrenPaths)
+		{
+			while(childrenSurnames.size() > 0)
+			{
+				std::string surname = childrenSurnames.front();
+				fs::path p = childrenPaths.front();
+
+				childrenSurnames.pop();
+				childrenPaths.pop();
+
+				if(surname != fatherSurname && surname != "" && fatherSurname != "")
+				{
+					if(surname != motherSurname && surname != "" && motherSurname != "")
+					{
+						errorType.push(11);
+						errorLocation.push(p);
+					}
+				}
 			}
 		}
 };

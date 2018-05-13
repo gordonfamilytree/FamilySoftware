@@ -21,6 +21,7 @@ class Family
 		std::queue<int> children;
 		std::queue<int> childrenBirths;
 		std::queue<fs::path> childrenPaths;
+		std::queue<std::string> childrenSurnames;
 		std::queue<bool> natural;
 		//------------------------------------------------------------------------
 		//---------------------------------Functions------------------------------		
@@ -31,7 +32,7 @@ class Family
 			getChildren(people,familyCounter);
 			(*allErrors).errorSevenEight(childrenBirths, childrenPaths, stringtoint(people[husband].birthYear),
 				stringtoint(people[wife].birthYear),stringtoint(people[husband].deathYear),stringtoint(people[wife].deathYear));
-
+			(*allErrors).errorEleven(childrenSurnames,people[husband].lastName,people[wife].lastName,childrenPaths);
 		}
 		bool exists(int familyCounter, std::vector<Person> people)
 		{
@@ -90,6 +91,7 @@ class Family
 					children.push(i);
 					childrenBirths.push(stringtoint(people[i].birthYear));
 					childrenPaths.push(people[i].location);
+					childrenSurnames.push(people[i].lastName);
 					if( husbandName == "William Parks" )//Change this if any other adopted people appear
 					{
 						natural.push(false);
