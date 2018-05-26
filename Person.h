@@ -250,12 +250,12 @@ class Person
 											if(isalpha(line.at(0))||line.at(0)=='?')
 											{
 												personCounter3++;										
-												if(line.find(".")!=std::string::npos)
+												if(line.find(">")!=std::string::npos)
 												{
 													//This is the specific person
 													getName(line);
 													getSex(line,lineCounter,unmarried);
-													related = false;
+													related = isRelated(line);
 													getline(file,line);
 													getBirth(line);
 													(*allErrors).errorOne(line,second_iter->path(),((birthDay+birthMonth+birthYear+deathPlace)==""));
@@ -288,7 +288,7 @@ class Person
 										lineCounter++;
 										if(isalpha(line.at(0))||line.at(0)=='?')
 										{										
-											if(line.find(".")==std::string::npos)
+											if(line.find(">")==std::string::npos)
 											{
 												//This is the specific person
 												std::string oldFirst = firstName;
@@ -318,7 +318,6 @@ class Person
 					}
 				}
 			}
-			std::cout<<"Done gathering info for "<<personCounter<<"\n";
 		}		
 		int countPeople(fs::path info)
 		{
@@ -662,6 +661,10 @@ class Person
 				else break;
 			}
 			if(lastName.find('.')!=std::string::npos)
+			{
+				lastName.pop_back();
+			}
+			if(lastName.find('>')!=std::string::npos)
 			{
 				lastName.pop_back();
 			}
