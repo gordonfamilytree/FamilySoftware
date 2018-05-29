@@ -266,6 +266,10 @@ class Person
 													getline(file,line);
 													parents = getParents(line);
 													famS = familyCounter;
+													if(related)
+													{
+														famC = getFamily(parents,p);
+													}
 													addResources(second_iter->path());
 													getRelationship(first_iter, second_iter->path().filename().string(), third_iter);
 													return;
