@@ -787,7 +787,7 @@ class Person
 				return 0;
 			}
 			int familyCounter = 0;	
-			isHalf(parents);
+			half = isHalf(parents);
 			if(parents.find("+")!=std::string::npos || parents.find("^")!=std::string::npos)
 			{
 				familyCounter++;
